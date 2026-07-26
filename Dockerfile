@@ -10,4 +10,5 @@ RUN apk add --no-cache \
     bash \
     curl \
     wget \
-    ca-certificates
+    ca-certificates \
+    git
