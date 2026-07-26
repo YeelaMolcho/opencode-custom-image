@@ -14,11 +14,24 @@ jobs:
       - name: Build Docker image
         run: docker build -t opencode-custom:1.17.7 .
 
-      - name: Save image to tar.gz
-        run: docker save opencode-custom:1.17.7 | gzip > opencode-custom-1.17.7.tar.gz
+      - name: Save image to tar
+        run: |
+          docker save \
+            -o opencode-custom-1.17.7.tar \
+            opencode-custom:1.17.7
 
-      - name: Upload artifact
+      - name: Convert tar to Base64 text
+        run: |
+          base64 -w 0 opencode-custom-1.17.7.tar > opencode-custom-1.17.7.tar.txt
+
+      - name: Generate checksum
+        run: |
+          sha256sum opencode-custom-1.17.7.tar > opencode-custom-1.17.7.sha256.txt
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: opencode-custom-1.17.7
-          path: opencode-custom-1.17.7.tar.gz
+          path: |
+            opencode-custom-1.17.7.tar.txt
+            opencode-custom-1.17.7.sha256.txt
