@@ -1,4 +1,4 @@
-name: Build OpenCode Custom Image
+name: Build OpenCode Debug Image
 
 on:
   workflow_dispatch:
