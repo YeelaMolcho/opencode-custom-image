@@ -1,0 +1,30 @@
+name: Build OpenCode Custom Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t opencode-custom:1.17.7 .
+
+      - name: Save image to tar
+        run: |
+          docker save \
+            -o opencode-custom-1.17.7.tar \
+            opencode-custom:1.17.7
+
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencode-custom-1.17.7
+          path: |
+            opencode-custom-1.17.7.tar.txt
+            opencode-custom-1.17.7.sha256.txt
